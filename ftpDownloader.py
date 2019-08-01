@@ -7,8 +7,13 @@ Created on Thu Aug  1 17:42:11 2019
 """
 
 from ftplib import FTP
+import os
 
-def ftpDownloader(host, user, password):
+defaultDir = "/media/hxtruong/Data/Course/Data Processing with Python/DataProcessing"
+def ftpDownloader(filename, host="ftp.pyclass.com", user="student@pyclass.com", password="student123"):
     ftp= FTP(host)
     ftp.login(user,password)
-    print(ftp.nlst())
+    ftp.cwd("Data")
+    os.chdir(defaultDir)
+    with open(filename, 'wb') as file:
+        ftp.retrbinary('RETR %s' % filename, file.write)
